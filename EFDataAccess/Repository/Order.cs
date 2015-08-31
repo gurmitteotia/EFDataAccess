@@ -5,24 +5,40 @@ namespace EFDataAccess.Repository
 {
     public struct Order<T>
     {
-        public DefaultOrderOf<T, TKey> InAscOrderOf<TKey>(Expression<Func<T, TKey>> ascOrderBy)
+        public KnownKeyOrderBy<T, TKey> InAscOrderOf<TKey>(Expression<Func<T, TKey>> ascOrderBy)
         {
-            return new DefaultOrderOf<T, TKey>(true, ascOrderBy);
+            return new KnownKeyOrderBy<T, TKey>(ascOrderBy, true);
         }
+        public KnownKeyOrderBy<T, TKey> InDescOrderOf<TKey>(Expression<Func<T, TKey>> descOrderBy)
+        {
+            return new KnownKeyOrderBy<T, TKey>(descOrderBy, false);
+        }
+        public DynamicKeyOrderBy<T> InAscOrderOf(string propertyName)
+        {
+            return new DynamicKeyOrderBy<T>(propertyName, true);
+        }
+        public DynamicKeyOrderBy<T> InDescOrderOf(string propertyName)
+        {
+            return new DynamicKeyOrderBy<T>(propertyName, false);
+        }
+        public KnownKeyOrderBy<T, TKey> InOrderOf<TKey>(Expression<Func<T, TKey>> descOrderBy, OrderType orderType)
+        {
+            //not validating enum
+            var ascending = orderType == OrderType.Ascending;
+            return new KnownKeyOrderBy<T, TKey>(descOrderBy, @ascending);
+        }
+        public DynamicKeyOrderBy<T> InOrderOf(string propertyName, OrderType orderType)
+        {
+            //not validating enum
+            var ascending = orderType == OrderType.Ascending;
+            return new DynamicKeyOrderBy<T>(propertyName, @ascending);
+        }
+    }
 
-        public DefaultOrderOf<T, TKey> InDescOrderOf<TKey>(Expression<Func<T, TKey>> descOrderBy)
-        {
-            return new DefaultOrderOf<T, TKey>(false, descOrderBy);
-        }
+    public enum OrderType
+    {
+        Ascending,
 
-        public DynamicOrderOf<T> InAscOrderOf(string propertyName)
-        {
-            return new DynamicOrderOf<T>(true, propertyName);
-        }
-
-        public DynamicOrderOf<T> InDescOrderOf(string propertyName)
-        {
-            return new DynamicOrderOf<T>(false, propertyName);
-        }
+        Descending
     }
 }

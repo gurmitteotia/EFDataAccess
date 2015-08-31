@@ -16,15 +16,15 @@ namespace EFDataAccess.Repository
         {
             _dataContext.Collection<T>().Attach(entity);
         }
-        public void Add<T>(T entity) where T :class
+        public void Add<T>(T entity) where T : class
         {
             _dataContext.Collection<T>().Add(entity);
         }
-        public void Delete<T>(T entity) where T: class
+        public void Delete<T>(T entity) where T : class
         {
             _dataContext.Collection<T>().Remove(entity);
         }
-        public T FindByKey<T>(object key) where T:class
+        public T FindByKey<T>(object key) where T : class
         {
             return _dataContext.Collection<T>().Find(key);
         }
@@ -34,46 +34,47 @@ namespace EFDataAccess.Repository
             return Get(specification).FirstOrDefault();
         }
 
-        public T FirstOrDefault<T>(Specification<T> specification, Func<Order<T>, IOrderOf<T>> orderBy) where T : class
+        public T FirstOrDefault<T>(Specification<T> specification, Func<Order<T>, IOrderBy<T>> orderFunc) where T : class
         {
-            return Get(specification, orderBy).FirstOrDefault();
+            return Get(specification, orderFunc).FirstOrDefault();
         }
 
         public int Count<T>(Specification<T> specification) where T : class
         {
-            return  Get(specification).Count();
+            return Get(specification).Count();
         }
         public IQueryable<T> GetAll<T>() where T : class
         {
             return _dataContext.Collection<T>();
         }
+
+        public IQueryable<T> GetAll<T>(Func<Order<T>, IOrderBy<T>> orderFunc) where T : class
+        {
+            var orderBy = orderFunc(new Order<T>());
+            return orderBy.ApplyOrder(_dataContext.Collection<T>());
+        }
+
         public IQueryable<T> Get<T>(Specification<T> specification) where T : class
         {
             return specification.Filter(_dataContext.Collection<T>());
         }
+
+        public IQueryable<T> Get<T>(Specification<T> specification, Func<Order<T>, IOrderBy<T>> orderFunc) where T : class
+        {
+            var filteredQuery = Get(specification);
+            var order = orderFunc(new Order<T>());
+            return order.ApplyOrder(filteredQuery);
+        }
+
         public IQueryable<T> Get<T>(Specification<T> specification, int pageIndex, int pageSize) where T : class
         {
             int skipItems = pageIndex * pageSize;
             return Get(specification).Skip(skipItems).Take(pageSize).AsNoTracking();
         }
-
-        public IQueryable<T> GetAll<T>(Func<Order<T>, IOrderOf<T>> orderBy) where T : class
+        public IQueryable<T> Get<T>(Specification<T> specification, Func<Order<T>, IOrderBy<T>> orderFunc, int pageIndex, int pageSize) where T : class
         {
-            var order = orderBy(new Order<T>());
-            return order.ApplyOrder(_dataContext.Collection<T>());
-        }
-
-        public IQueryable<T> Get<T>(Specification<T> specification, Func<Order<T>, IOrderOf<T>> orderBy) where T : class
-        {
-            var filteredQuery = Get(specification);
-            var order = orderBy(new Order<T>());
-            return order.ApplyOrder(filteredQuery);
-        }
-
-        public IQueryable<T> Get<T>(Specification<T> specification, Func<Order<T>, IOrderOf<T>> orderBy, int pageIndex, int pageSize) where T : class
-        {
-            var filteredQuery = Get(specification,pageIndex,pageSize);
-            var order = orderBy(new Order<T>());
+            var filteredQuery = Get(specification, pageIndex, pageSize);
+            var order = orderFunc(new Order<T>());
             return order.ApplyOrder(filteredQuery);
         }
 
