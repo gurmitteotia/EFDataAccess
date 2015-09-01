@@ -75,7 +75,7 @@ namespace EFDataAccess.Tests.RepositoryUsage
             //and dynamic ordering
             string userSuppliedOrderingProperty = "Category";
             OrderType userSuppliedOrderType = OrderType.Ascending;
-            var sortedFilteredProduct = repository.Get(userFilter, o => o.InOrderOf(userSuppliedOrderingProperty, userSuppliedOrderType));
+            var sortedFilteredProduct = _repository.Get(userFilter, o => o.InOrderOf(userSuppliedOrderingProperty, userSuppliedOrderType));
         }
          
     }
