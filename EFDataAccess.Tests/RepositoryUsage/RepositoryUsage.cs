@@ -3,6 +3,7 @@ using EFDataAccess.Model;
 using EFDataAccess.Repository;
 using EFDataAccess.Repository.EFDbContext;
 using EFDataAccess.Spec;
+using EFDataAccess.ToSupportBlog.SpecExample;
 using NUnit.Framework;
 
 namespace EFDataAccess.Tests.RepositoryUsage
@@ -64,6 +65,13 @@ namespace EFDataAccess.Tests.RepositoryUsage
 
             //var popularKeyboard = popular.And(keyboard);
             //var popularKeyboards = repository.Get(popularKeyboard);
+
+
+            var popular = new PopularProductSpecification();
+            var keyboard = new CategorySpecification(ProductCategory.KeyBoard);
+            var popularKeyboard = popular.And(keyboard);
+            
+            var popularKeyboards = _repository.Get(popularKeyboard);
 
             string userSuppliedProperty = "AverageRating";
             OperationType userSuppliedOperationType = OperationType.GreaterThan;
