@@ -67,13 +67,13 @@ namespace EFDataAccess.Tests.RepositoryUsage
             //var popularKeyboards = repository.Get(popularKeyboard);
 
 
-            var popular = new PopularProductSpecification();
-            var keyboard = new CategorySpecification(ProductCategory.KeyBoard);
-            var popularKeyboard = popular.And(keyboard);
+            //var popular = new PopularProductSpecification();
+            //var keyboard = new CategorySpecification(ProductCategory.KeyBoard);
+            //var popularKeyboard = popular.And(keyboard);
             
-            var popularKeyboards = _repository.Get(popularKeyboard);
+            //var popularKeyboards = _repository.Get(popularKeyboard);
 
-            string userSuppliedProperty = "AverageRating";
+            string userSuppliedProperty = "AverageRatings";
             OperationType userSuppliedOperationType = OperationType.GreaterThan;
             var userSuppliedValue = 4.5;
 
