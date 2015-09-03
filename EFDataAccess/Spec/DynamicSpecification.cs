@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace EFDataAccess.Spec
 {
@@ -21,12 +22,20 @@ namespace EFDataAccess.Spec
         {
             //Create parameter expression "o"
             var parameter = Expression.Parameter(typeof(T), "o");
-            var propertyInfo = typeof(T).GetProperty(_propertyName);
-            
-            //Create o.PropertyName expression
-            var property = Expression.Property(parameter, propertyInfo);
 
-            var targetValue = Convert.ChangeType(_value, propertyInfo.PropertyType);
+            //Search the member- field or property. You can also pass it BindingFlags.IgnoreCase to do case insensitive search.
+            var memberInfo = typeof(T).GetMember(_propertyName,MemberTypes.Property|MemberTypes.Field,BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic).FirstOrDefault();
+            if (memberInfo == null)
+            {
+                throw new ArgumentException(string.Format("Can not find the property or field by name {0} on type {1}",_propertyName,typeof(T).Name));
+            }
+            
+            //Create o.MemberName expression
+            var property = Expression.MakeMemberAccess(parameter, memberInfo);
+
+            var targetType = GetTargetType(memberInfo);
+            //Change the provided _value to target type.
+            var targetValue = Convert.ChangeType(_value, targetType);
             
             //Create expression for targetValue
             var valueExpression = Expression.Constant(targetValue);
@@ -36,6 +45,20 @@ namespace EFDataAccess.Spec
 
             //Generate lamda expression e.g. o=>o.PropertyName >= targetValue
             return Expression.Lambda<Func<T, bool>>(filterExpression, parameter);
+        }
+
+        private Type GetTargetType(MemberInfo memberInfo)
+        {
+            if (memberInfo.MemberType == MemberTypes.Field)
+            {
+                return ((FieldInfo)memberInfo).FieldType;
+            }
+            if (memberInfo.MemberType == MemberTypes.Property)
+            {
+                return ((PropertyInfo)memberInfo).PropertyType;
+            }
+
+            throw new NotSupportedException(string.Format("Does not support the member type {0}",memberInfo.MemberType));
         }
 
         private Expression CombineExpression(Expression left, Expression right)
