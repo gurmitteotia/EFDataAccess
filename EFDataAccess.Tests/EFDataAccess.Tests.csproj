@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryUsage\RepositoryUsage.cs" />
+    <Compile Include="Repository\OrderTests.cs" />
     <Compile Include="Spec\DynamicSpecificationTests.cs" />
     <Compile Include="Spec\GenericSpecificationTests.cs" />
   </ItemGroup>

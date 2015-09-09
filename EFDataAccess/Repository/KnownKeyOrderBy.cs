@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace EFDataAccess.Repository
 {
-    public class KnownKeyOrderBy<T, TKey> : IOrderBy<T>
+    internal class KnownKeyOrderBy<T, TKey> : IOrderBy<T>
     {
         private readonly bool _ascending;
         private readonly Expression<Func<T, TKey>> _orderBy;

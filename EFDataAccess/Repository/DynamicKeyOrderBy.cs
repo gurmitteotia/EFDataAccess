@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace EFDataAccess.Repository
 {
-    public class DynamicKeyOrderBy<T> : IOrderBy<T>
+    internal class DynamicKeyOrderBy<T> : IOrderBy<T>
     {
         private readonly string _propertyName;
         private readonly bool _ascending;
@@ -34,7 +34,7 @@ namespace EFDataAccess.Repository
             var lambdaExpression = Expression.Lambda(lamdbaDelegate, property, parameter);
 
             MethodInfo method;
-            //Find the OrderBy or OrderByDecending method accepting two arguments, there are overloads which accept more than two arguments.
+            //Find the OrderBy or OrderByDecending method accepting two arguments, there are overloaded methods which accept more than two arguments.
             if (_ascending)
             {
                 method = typeof(Queryable).GetMethods().Single(m => m.Name == "OrderBy" && m.GetParameters().Length == 2);
@@ -48,6 +48,7 @@ namespace EFDataAccess.Repository
             var methodName = method.MakeGenericMethod(typeof(T), memberType);
 
             //Call the static method - OrderBy/OrderByDescending by passing two arguments- orginal IQueryable<T> (in form of expression) and sorting expression
+            //e.g.- OrderBy(IQueryable<T> originalInstance, o=>o.MamberName)
             var callOrderBy = Expression.Call(methodName, queryable.Expression, lambdaExpression);
 
             //Generate new query out of this expression.
