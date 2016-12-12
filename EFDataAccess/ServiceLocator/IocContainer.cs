@@ -7,14 +7,17 @@ namespace EFDataAccess.ServiceLocator
     public abstract class IocContainer : IDisposable
     {
         private static IocContainer _unityContainer;
+
         public abstract T Resolve<T>() where T : class;
         public abstract object Resolve(Type type);
-
         public abstract IEnumerable<T> ResolveAll<T>() where T : class;
-
         public abstract IEnumerable<object> ResolveAll(Type type);
-
         public abstract void Dispose();
+
+        /*
+         * Sytax for creating container= IocContainer.Unity(For.MarketPlace);
+         * 
+         */
 
         public static IocContainer Unity(Action<UnityContainer> configure)
         {
