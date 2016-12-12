@@ -6,19 +6,15 @@ using Microsoft.Practices.Unity;
 
 namespace EFDataAccess.ServiceLocator
 {
-    public class AppNameIocContainerProvider : IocContainerProvider
+    public static class For
     {
-        protected override IIocContainer BuildContainer()
+        public static void  MarketPlace(UnityContainer unityContainer)
         {
-            var unityContainer = new UnityContainer();
-            
             unityContainer.RegisterType<IProductService, ProductService>();
             unityContainer.RegisterType<IRepository, GenericRepository>();
 
-            //I have used EF in my code and following line is quite handy to tell container that use same instance of DbContent while creating object graph. Very-very useful.
+            //I have used EntityFramework in my code and following line is quite handy to tell container to use same instance of DbContent for an object graph
             unityContainer.RegisterType<DbContext>(new PerResolveLifetimeManager(), new InjectionFactory(c => new ScalableDbContext("EF.Mapper.dll", "EFTest")));
-
-            return new UnityIocContainer(unityContainer);
         }
     }
 }

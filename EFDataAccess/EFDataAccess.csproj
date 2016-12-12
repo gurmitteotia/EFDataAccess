@@ -45,6 +45,9 @@
     <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention">
       <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
     </Reference>
+    <Reference Include="SimpleInjector">
+      <HintPath>..\packages\SimpleInjector.3.3.2\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -74,9 +77,9 @@
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\KnownKeyOrderBy.cs" />
     <Compile Include="Repository\Order.cs" />
-    <Compile Include="ServiceLocator\AppNameIocContainerProvider.cs" />
-    <Compile Include="ServiceLocator\IIocContainer.cs" />
-    <Compile Include="ServiceLocator\IocContainerProvider.cs" />
+    <Compile Include="ServiceLocator\For.cs" />
+    <Compile Include="ServiceLocator\IocContainer.cs" />
+    <Compile Include="ServiceLocator\SimpleInjectIocContainer.cs" />
     <Compile Include="ServiceLocator\UnityIocContainer.cs" />
     <Compile Include="Spec\DynamicSpecification.cs" />
     <Compile Include="Spec\ExpressionExtensions.cs" />

@@ -4,7 +4,7 @@ using Microsoft.Practices.Unity;
 
 namespace EFDataAccess.ServiceLocator
 {
-    public class UnityIocContainer : IIocContainer
+    internal class UnityIocContainer : IocContainer
     {
         private readonly UnityContainer _unityContainer;
 
@@ -12,38 +12,25 @@ namespace EFDataAccess.ServiceLocator
         {
             _unityContainer = unityContainer;
         }
-
-        public T Resolve<T>()
+        public override T Resolve<T>()
         {
             return _unityContainer.Resolve<T>();
         }
 
-        public object Resolve(Type type)
+        public override object Resolve(Type type)
         {
             return _unityContainer.Resolve(type);
         }
-
-        public T Resolve<T>(string name)
-        {
-            return _unityContainer.Resolve<T>(name);
-        }
-
-        public object Resolve(Type type, string name)
-        {
-            return _unityContainer.Resolve(type, name);
-        }
-
-        public IEnumerable<T> ResolveAll<T>()
+        public override IEnumerable<T> ResolveAll<T>()
         {
             return _unityContainer.ResolveAll<T>();
         }
 
-        public IEnumerable<object> ResolveAll(Type type)
+        public override IEnumerable<object> ResolveAll(Type type)
         {
             return _unityContainer.ResolveAll(type);
         }
-
-        public void Dispose()
+        public override void Dispose()
         {
             _unityContainer.Dispose();
         }
