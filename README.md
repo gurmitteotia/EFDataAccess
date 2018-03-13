@@ -1,2 +1,5 @@
 # EFDataAccess
-EntityFramework data access code
+A generic repository in C#.NET around EntityFramework with support for specifications, dynamic queries and dynamic sorting.
+
+# Description
+
