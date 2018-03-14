@@ -59,11 +59,11 @@
     <Compile Include="IRepository.cs" />
     <Compile Include="KnownKeyOrderBy.cs" />
     <Compile Include="Order.cs" />
-    <Compile Include="Spec\DynamicSpecification.cs" />
     <Compile Include="ExpressionExtensions.cs" />
     <Compile Include="Spec\GenericSpecification.cs" />
     <Compile Include="Query.cs" />
     <Compile Include="QueryExtension.cs" />
+    <Compile Include="OperationType.cs" />
     <Compile Include="Spec\Specification.cs" />
   </ItemGroup>
   <ItemGroup>
