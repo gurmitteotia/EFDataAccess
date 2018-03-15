@@ -95,11 +95,6 @@
     <Compile Include="ServiceLocator\UnityIocContainer.cs" />
     <Compile Include="ToSupportBlog\AppService\IProductService.cs" />
     <Compile Include="ToSupportBlog\AppService\ProductService.cs" />
-    <Compile Include="ToSupportBlog\BasicRepository\GenericRepository.cs" />
-    <Compile Include="ToSupportBlog\BasicRepository\IRepository.cs" />
-    <Compile Include="ToSupportBlog\SpecExample\SpecExamples.cs" />
-    <Compile Include="ToSupportBlog\SpecRepository\GenericRepository.cs" />
-    <Compile Include="ToSupportBlog\SpecRepository\IRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

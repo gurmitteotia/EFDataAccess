@@ -52,7 +52,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryTest.cs" />
     <Compile Include="OrderedQueryTest.cs" />
-    <Compile Include="Spec\GenericSpecificationTests.cs" />
+    <Compile Include="GenericSpecificationTests.cs" />
     <Compile Include="TestItem.cs" />
   </ItemGroup>
   <ItemGroup>

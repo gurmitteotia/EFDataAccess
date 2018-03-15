@@ -60,11 +60,10 @@
     <Compile Include="KnownKeyOrderBy.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="ExpressionExtensions.cs" />
-    <Compile Include="Spec\GenericSpecification.cs" />
     <Compile Include="Query.cs" />
     <Compile Include="QueryExtension.cs" />
     <Compile Include="OperationType.cs" />
-    <Compile Include="Spec\Specification.cs" />
+    <Compile Include="Specification.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -77,5 +77,16 @@ namespace GenRepo.Tests
             Assert.That(filteredItems, Is.EqualTo(new[] { new TestItem(12) }));
         }
 
+        [Test]
+        public void Create_query_from_specification()
+        {
+            var items = new[] { new TestItem(10) { Salary = 5000 }, new TestItem(12) { Salary = 1000 }, };
+            var spec = new Specification<TestItem>(t => t.Salary > 4000);
+            Query<TestItem> query = spec;
+            var filteredItems = query.Filter(items.AsQueryable());
+
+            Assert.That(filteredItems, Is.EqualTo(new[] { new TestItem(10) }));
+        }
+
     }
 }

@@ -15,7 +15,7 @@ namespace GenRepo
         {
             return _dbContext.Set<T>();
         }
-
+        //Useful to write any generic error handling code here.
         public void SaveChanges()
         {
             _dbContext.SaveChanges();
