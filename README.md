@@ -54,6 +54,13 @@ You can read about ScaleableDataContext in [blog post](http://gurmitteotia.blogs
         var orderedKeyboards = repository.Get(orderedKeyboards)
 
    ```
+4. **Understand Specification pattern**: You can use specification with generic repository. You can read about specification in [this paper](https://martinfowler.com/apsupp/spec.pdf) and my understanding of it at [StackOverflow](https://stackoverflow.com/questions/2506426/using-the-specification-pattern/32350270#32350270). I have also disambiguated the Specification and Query object patterns. Specification is not alternative to Query object pattern.
+   ```cs
+      var popularKeyboard = new Specification<Product>(p=>p.Rating>4);
+      var popularKeyboards = repository.Get(popularKeyboard);
+   ```
+
+Note: Query object not tied to generic repository you can use it directly on EntityFramework repository.
 
 *Note*: [My blog](http://gurmitteotia.blogspot.co.uk/2015/06/generic-repository-around-entity.html) is not in sync with this code. I will update the blog soon.
 
