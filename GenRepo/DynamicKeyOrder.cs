@@ -5,16 +5,16 @@ using System.Reflection;
 
 namespace GenRepo
 {
-    internal class DynamicKeyOrderBy<T> : IOrderBy<T>
+    internal class DynamicKeyOrder<T> : IOrder<T>
     {
         private readonly string _propertyName;
         private readonly bool _ascending;
-        public DynamicKeyOrderBy(string propertyName, bool ascending)
+        public DynamicKeyOrder(string propertyName, bool ascending)
         {
             _ascending = ascending;
             _propertyName = propertyName;
         }
-        public IOrderedQueryable<T> ApplyOrder(IQueryable<T> queryable)
+        public IOrderedQueryable<T> Apply(IQueryable<T> queryable)
         {
             //Create parameter named "o"
             var parameter = Expression.Parameter(typeof(T), "o");

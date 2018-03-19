@@ -4,17 +4,17 @@ using System.Linq.Expressions;
 
 namespace GenRepo
 {
-    internal class KnownKeyOrderBy<T, TKey> : IOrderBy<T>
+    internal class KnownKeyOrder<T, TKey> : IOrder<T>
     {
         private readonly bool _ascending;
         private readonly Expression<Func<T, TKey>> _orderBy;
 
-        public KnownKeyOrderBy(Expression<Func<T, TKey>> orderBy, bool ascending)
+        public KnownKeyOrder(Expression<Func<T, TKey>> orderBy, bool ascending)
         {
             _ascending = ascending;
             _orderBy = orderBy;
         }
-        public IOrderedQueryable<T> ApplyOrder(IQueryable<T> queryable)
+        public IOrderedQueryable<T> Apply(IQueryable<T> queryable)
         {
             if (_ascending)
             {

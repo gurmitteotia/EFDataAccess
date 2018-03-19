@@ -5,9 +5,9 @@ namespace GenRepo
     internal class OrderedQuery<T> : IQuery<T>
     {
         private readonly Query<T> _query;
-        private readonly IOrderBy<T> _order;
+        private readonly IOrder<T> _order;
 
-        public OrderedQuery(Query<T> query, IOrderBy<T> order)
+        public OrderedQuery(Query<T> query, IOrder<T> order)
         {
             _query = query;
             _order = order;
@@ -15,7 +15,7 @@ namespace GenRepo
 
         public IQueryable<T> Filter(IQueryable<T> items)
         {
-            return _order.ApplyOrder(_query.Filter(items));
+            return _order.Apply(_query.Filter(items));
         }
     }
 }

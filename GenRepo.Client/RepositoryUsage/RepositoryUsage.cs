@@ -16,8 +16,7 @@ namespace GenRepo.Client.RepositoryUsage
         public void Setup()
         {
             var scalableDbContext = new ScalableDbContext(Assembly.GetExecutingAssembly(), "EFDataAccess");
-            var dataContext = new DataContext(scalableDbContext);
-            _repository = new GenericRepository(dataContext);
+            _repository = new GenericRepository(scalableDbContext);
         }
 
         [Test]

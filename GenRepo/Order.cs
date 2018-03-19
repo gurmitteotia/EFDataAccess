@@ -5,21 +5,21 @@ namespace GenRepo
 {
     public struct Order<T>
     {
-        public IOrderBy<T> Asc<TKey>(Expression<Func<T, TKey>> ascOrderBy)
+        public IOrder<T> Asc<TKey>(Expression<Func<T, TKey>> ascOrderBy)
         {
-            return new KnownKeyOrderBy<T, TKey>(ascOrderBy, true);
+            return new KnownKeyOrder<T, TKey>(ascOrderBy, true);
         }
-        public IOrderBy<T> Desc<TKey>(Expression<Func<T, TKey>> descOrderBy)
+        public IOrder<T> Desc<TKey>(Expression<Func<T, TKey>> descOrderBy)
         {
-            return new KnownKeyOrderBy<T, TKey>(descOrderBy, false);
+            return new KnownKeyOrder<T, TKey>(descOrderBy, false);
         }
-        public IOrderBy<T> Asc(string propertyName)
+        public IOrder<T> Asc(string propertyName)
         {
-            return new DynamicKeyOrderBy<T>(propertyName, true);
+            return new DynamicKeyOrder<T>(propertyName, true);
         }
-        public IOrderBy<T> Desc(string propertyName)
+        public IOrder<T> Desc(string propertyName)
         {
-            return new DynamicKeyOrderBy<T>(propertyName, false);
+            return new DynamicKeyOrder<T>(propertyName, false);
         }
     }
 }
