@@ -1,5 +1,5 @@
 ### EFDataAccess
-A generic repository in C#.NET around EntityFramework with support of queries and sorting on known and dynamic fields.
+A generic repository in C#.NET around EntityFramework with support for queries and sorting on known and dynamic fields.
 
 ### Description
 EntityFramework has already done the good job of implementing Repository, Query and Metadata Mapping patterns. I have created a generic repository (more of a wrapper) on top of EntityFramework's repository with nice to have features.
