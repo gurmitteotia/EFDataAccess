@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace GenRepo
@@ -17,11 +17,11 @@ namespace GenRepo
 
         int Count<T>(IQuery<T> query) where T : class;
 
-        IQueryable<T> GetAll<T>() where T : class;
+        IEnumerable<T> GetAll<T>() where T : class;
 
-        IQueryable<T> Get<T>(IQuery<T> query) where T : class;
+        IEnumerable<T> Get<T>(IQuery<T> query) where T : class;
 
-        IQueryable<T> Get<T>(IQuery<T> query, int pageIndex, int pageSize) where T : class;
+        IEnumerable<T> Get<T>(IQuery<T> query, int pageIndex, int pageSize) where T : class;
         void Save();
     }
 }

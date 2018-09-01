@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
@@ -37,22 +38,27 @@ namespace GenRepo
             return Get(query).Count();
         }
 
-        public IQueryable<T> GetAll<T>() where T : class
+        public IEnumerable<T> GetAll<T>() where T : class
         {
             return _dataContext.Set<T>();
         }
-        public IQueryable<T> Get<T>(IQuery<T> query) where T : class
+        public IEnumerable<T> Get<T>(IQuery<T> query) where T : class
         {
-            return query.Filter(_dataContext.Set<T>());
+            return FilteredItems(query);
         }
-        public IQueryable<T> Get<T>(IQuery<T> query, int pageIndex, int pageSize) where T : class
+        public IEnumerable<T> Get<T>(IQuery<T> query, int pageIndex, int pageSize) where T : class
         {
             int skipItems = pageIndex * pageSize;
-            return Get(query).Skip(skipItems).Take(pageSize).AsNoTracking();
+            return FilteredItems(query).Skip(skipItems).Take(pageSize).AsNoTracking();
         }
         public void Save()
         {
             _dataContext.SaveChanges();
+        }
+
+        private IQueryable<T> FilteredItems<T>(IQuery<T> query) where T: class
+        {
+            return query.Filter(_dataContext.Set<T>());
         }
     }
 }

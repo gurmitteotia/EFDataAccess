@@ -82,6 +82,8 @@ namespace GenRepo.Client.RepositoryUsage
             string userSuppliedOrderingProperty = "Category";
             //OrderType userSuppliedOrderType = OrderType.Ascending;
             //var sortedFilteredProduct = _repository.Get(userFilter, o => o.InOrderOf(userSuppliedOrderingProperty, userSuppliedOrderType));
+
+            var query = userFilter.Project()
         }
          
     }
