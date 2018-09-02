@@ -38,19 +38,30 @@ namespace GenRepo
             return Get(query).Count();
         }
 
+        public IEnumerable<T> Get<T>(IFilter<T> filter) where T : class
+        {
+            return filter.Apply(_dataContext.Set<T>()).AsEnumerable();
+        }
+
         public IEnumerable<T> GetAll<T>() where T : class
         {
-            return _dataContext.Set<T>();
+            return _dataContext.Set<T>().AsEnumerable();
         }
         public IEnumerable<T> Get<T>(IQuery<T> query) where T : class
         {
-            return FilteredItems(query);
+            return FilteredItems(query).AsEnumerable();
         }
         public IEnumerable<T> Get<T>(IQuery<T> query, int pageIndex, int pageSize) where T : class
         {
             int skipItems = pageIndex * pageSize;
-            return FilteredItems(query).Skip(skipItems).Take(pageSize).AsNoTracking();
+            return FilteredItems(query).Skip(skipItems).Take(pageSize).AsNoTracking().AsEnumerable();
         }
+
+        public IEnumerable<TProjection> Get<T, TProjection>(QueryProjection<T, TProjection> projection) where T:class
+        {
+            return projection.Evaluate(_dataContext.Set<T>());
+        }
+
         public void Save()
         {
             _dataContext.SaveChanges();
@@ -58,7 +69,7 @@ namespace GenRepo
 
         private IQueryable<T> FilteredItems<T>(IQuery<T> query) where T: class
         {
-            return query.Filter(_dataContext.Set<T>());
+            return query.Execute(_dataContext.Set<T>());
         }
     }
 }

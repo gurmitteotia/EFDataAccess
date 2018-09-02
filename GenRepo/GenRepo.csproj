@@ -47,20 +47,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExpressionBuilder.cs" />
+    <Compile Include="AssemblyDbContext.cs" />
+    <Compile Include="Filter\ExpressionBuilder.cs" />
+    <Compile Include="Filter\Filter.cs" />
+    <Compile Include="Filter\IFilter.cs" />
     <Compile Include="IQuery.cs" />
-    <Compile Include="OrderedQuery.cs" />
+    <Compile Include="Order\OrderedQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DynamicKeyOrder.cs" />
+    <Compile Include="Order\DynamicKeyOrder.cs" />
     <Compile Include="GenericRepository.cs" />
-    <Compile Include="IOrder.cs" />
+    <Compile Include="Order\IOrder.cs" />
     <Compile Include="IRepository.cs" />
-    <Compile Include="KnownKeyOrder.cs" />
+    <Compile Include="Order\KnownKeyOrder.cs" />
     <Compile Include="Order.cs" />
-    <Compile Include="ExpressionExtensions.cs" />
+    <Compile Include="Filter\ExpressionExtensions.cs" />
     <Compile Include="Query.cs" />
-    <Compile Include="QueryExtension.cs" />
-    <Compile Include="OperationType.cs" />
+    <Compile Include="Filter\OperationType.cs" />
+    <Compile Include="QueryProjection.cs" />
     <Compile Include="Specification.cs" />
   </ItemGroup>
   <ItemGroup>

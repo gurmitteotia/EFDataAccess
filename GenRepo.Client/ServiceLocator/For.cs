@@ -15,7 +15,7 @@ namespace GenRepo.Client.ServiceLocator
             unityContainer.RegisterType<IRepository, GenericRepository>();
 
             //I have used EntityFramework in my code and following line is quite handy to tell container to use same instance of DbContent for an object graph
-            unityContainer.RegisterType<DbContext>(new PerResolveLifetimeManager(), new InjectionFactory(c => ScalableDbContext.Create("EF.Mapper.dll", "EFTest")));
+            unityContainer.RegisterType<DbContext>(new PerResolveLifetimeManager(), new InjectionFactory(c => AssemblyDbContext.Create("EF.Mapper.dll", "EFTest")));
         }
     }
 }

@@ -17,11 +17,13 @@ namespace GenRepo
 
         int Count<T>(IQuery<T> query) where T : class;
 
-        IEnumerable<T> GetAll<T>() where T : class;
+        IEnumerable<T> Get<T>(IFilter<T> filter) where T : class;
 
         IEnumerable<T> Get<T>(IQuery<T> query) where T : class;
 
         IEnumerable<T> Get<T>(IQuery<T> query, int pageIndex, int pageSize) where T : class;
+
+        IEnumerable<TProjection> Get<T, TProjection>(QueryProjection<T, TProjection> projection) where T : class;
         void Save();
     }
 }

@@ -15,7 +15,7 @@ namespace GenRepo.Client.RepositoryUsage
         [SetUp]
         public void Setup()
         {
-            var scalableDbContext = new ScalableDbContext(Assembly.GetExecutingAssembly(), "EFDataAccess");
+            var scalableDbContext = new AssemblyDbContext(Assembly.GetExecutingAssembly(), "EFDataAccess");
             _repository = new GenericRepository(scalableDbContext);
         }
 
@@ -71,19 +71,20 @@ namespace GenRepo.Client.RepositoryUsage
             
             //var popularKeyboards = _repository.Get(popularKeyboard);
 
-            string userSuppliedProperty = "AverageRatings";
-            OperationType userSuppliedOperationType = OperationType.GreaterThan;
-            var userSuppliedValue = 4.5;
+            //string userSuppliedProperty = "AverageRatings";
+            //OperationType userSuppliedOperationType = OperationType.GreaterThan;
+            //var userSuppliedValue = 4.5;
 
-            var userFilter = Query<Product>.Create(userSuppliedProperty, userSuppliedOperationType, userSuppliedValue);
-            var filteredProducts = _repository.Get(userFilter).ToList();
-            Console.WriteLine(filteredProducts.Count);
-            //and dynamic ordering
-            string userSuppliedOrderingProperty = "Category";
-            //OrderType userSuppliedOrderType = OrderType.Ascending;
-            //var sortedFilteredProduct = _repository.Get(userFilter, o => o.InOrderOf(userSuppliedOrderingProperty, userSuppliedOrderType));
+            //var userFilter = Query<Product>.Create(userSuppliedProperty, userSuppliedOperationType, userSuppliedValue);
+            //var filteredProducts = _repository.Get(userFilter).ToList();
+            //Console.WriteLine(filteredProducts.Count);
+            ////and dynamic ordering
+            //string userSuppliedOrderingProperty = "Category";
+            ////OrderType userSuppliedOrderType = OrderType.Ascending;
+            ////var sortedFilteredProduct = _repository.Get(userFilter, o => o.InOrderOf(userSuppliedOrderingProperty, userSuppliedOrderType));
 
-            var query = userFilter.Project()
+            //var query = userFilter.Project(p => new {p.Id, p.Category});
+            //var items = _repository.Get(query);
         }
          
     }

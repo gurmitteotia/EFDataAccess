@@ -15,8 +15,8 @@ namespace GenRepo.Client.ToSupportBlog.AppService
 
         public IEnumerable<Product> GetPopularKeyboards()
         {
-            var keyboard = Query<Product>.Create(product=>product.Category==ProductCategory.KeyBoard);
-            var popular =  Query<Product>.Create(p=>p.AverageRatings>4);
+            var keyboard = Filter<Product>.Create(product=>product.Category==ProductCategory.KeyBoard);
+            var popular =  Filter<Product>.Create(p=>p.AverageRatings>4);
             var popularKeyboard = popular.And(keyboard);
 
             return _repository.Get(popularKeyboard);

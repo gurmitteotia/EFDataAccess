@@ -80,7 +80,6 @@
   <ItemGroup>
     <Compile Include="EFDbContext\DifficultToScaleDataContext.cs" />
     <Compile Include="EFDbContext\NotSoScalableDbContext.cs" />
-    <Compile Include="EFDbContext\ScalableDbContext.cs" />
     <Compile Include="Model\Mappings\BrandEntityConfiguration.cs" />
     <Compile Include="Model\Mappings\ProductEntityConfiguration.cs" />
     <Compile Include="Model\Brand.cs" />

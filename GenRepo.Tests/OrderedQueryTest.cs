@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using NUnit.Framework;
 
@@ -25,10 +24,10 @@ namespace GenRepo.Tests
         [Test]
         public void Order_the_items_in_ascending_order_with_fix_key()
         {
-            var query = Query<TestItem>.Create(t => t.Salary > 1500);
-            var sortQuery = query.OrderBy(o => o.Asc(t => t.Salary));
+            var filter = Filter<TestItem>.Create(t => t.Salary > 1500);
+            var sortQuery = filter.Query.OrderBy(o => o.Asc(t => t.Salary));
 
-            var sortedItems = sortQuery.Filter(_testItems).ToList();
+            var sortedItems = sortQuery.Execute(_testItems).ToList();
 
             Assert.That(sortedItems, Is.EqualTo(new[]{new TestItem(10), new TestItem(12), new TestItem(11)}));
         }
@@ -36,10 +35,10 @@ namespace GenRepo.Tests
         [Test]
         public void Order_the_items_in_descending_order_with_fix_key()
         {
-            var query = Query<TestItem>.Create(t => t.Salary > 1500);
-            var sortQuery = query.OrderBy(o => o.Desc(t => t.Salary));
+            var filter = Filter<TestItem>.Create(t => t.Salary > 1500);
+            var sortQuery = filter.Query.OrderBy(o => o.Desc(t => t.Salary));
 
-            var sortedItems = sortQuery.Filter(_testItems).ToList();
+            var sortedItems = sortQuery.Execute(_testItems).ToList();
 
             Assert.That(sortedItems, Is.EqualTo(new[] { new TestItem(11), new TestItem(12), new TestItem(10) }));
         }
@@ -47,10 +46,10 @@ namespace GenRepo.Tests
         [Test]
         public void Order_the_items_in_ascending_order_with_dynamic_key()
         {
-            var query = Query<TestItem>.Create(t => t.Salary > 1500);
-            var sortQuery = query.OrderBy(o => o.Asc("Salary"));
+            var filter = Filter<TestItem>.Create(t => t.Salary > 1500);
+            var sortQuery = filter.Query.OrderBy(o => o.Asc("Salary"));
 
-            var sortedItems = sortQuery.Filter(_testItems).ToList();
+            var sortedItems = sortQuery.Execute(_testItems).ToList();
 
             Assert.That(sortedItems, Is.EqualTo(new[] { new TestItem(10), new TestItem(12), new TestItem(11) }));
         }
@@ -58,10 +57,10 @@ namespace GenRepo.Tests
         [Test]
         public void Order_the_items_in_descending_order_with_dynamic_key()
         {
-            var query = Query<TestItem>.Create(t => t.Salary > 1500);
-            var sortQuery = query.OrderBy(o => o.Desc("Salary"));
+            var filter = Filter<TestItem>.Create(t => t.Salary > 1500);
+            var sortQuery = filter.Query.OrderBy(o => o.Desc("Salary"));
 
-            var sortedItems = sortQuery.Filter(_testItems).ToList();
+            var sortedItems = sortQuery.Execute(_testItems).ToList();
 
             Assert.That(sortedItems, Is.EqualTo(new[] { new TestItem(11), new TestItem(12), new TestItem(10) }));
         }

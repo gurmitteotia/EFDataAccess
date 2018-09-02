@@ -1,19 +1,19 @@
 ﻿using System.Data.Entity;
 using System.Reflection;
 
-namespace GenRepo.Client.EFDbContext
+namespace GenRepo
 {
-    public class ScalableDbContext : DbContext
+    public class AssemblyDbContext : DbContext
     {
         private readonly Assembly _mapperAssembly;
-        public ScalableDbContext(Assembly mapperAssembly, string connectionName):base(connectionName)
+        public AssemblyDbContext(Assembly mapperAssembly, string connectionName):base(connectionName)
         {
             _mapperAssembly = mapperAssembly;
         }
 
         public static DbContext Create(string mapperAssemblyPath, string connectionName)
         {
-            return new ScalableDbContext(Assembly.LoadFrom(mapperAssemblyPath), connectionName);
+            return new AssemblyDbContext(Assembly.LoadFrom(mapperAssemblyPath), connectionName);
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
