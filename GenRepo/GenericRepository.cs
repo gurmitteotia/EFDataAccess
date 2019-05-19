@@ -33,9 +33,15 @@ namespace GenRepo
         {
             return Get(query).FirstOrDefault();
         }
-        public int Count<T>(IQuery<T> query) where T : class
+
+        public T FirstOrDefault<T>(IFilter<T> filter) where T : class
         {
-            return Get(query).Count();
+            return FirstOrDefault(new Query<T>(filter));
+        }
+
+        public int Count<T>(IFilter<T> filter) where T : class
+        {
+            return Get(filter).Count();
         }
 
         public IEnumerable<T> Get<T>(IFilter<T> filter) where T : class
@@ -55,6 +61,11 @@ namespace GenRepo
         {
             int skipItems = pageIndex * pageSize;
             return FilteredItems(query).Skip(skipItems).Take(pageSize).AsNoTracking().AsEnumerable();
+        }
+
+        public IEnumerable<T> Get<T>(IFilter<T> filter, int pageIndex, int pageSize) where T : class
+        {
+            return Get(new Query<T>(filter), pageIndex, pageSize);
         }
 
         public IEnumerable<TProjection> Get<T, TProjection>(QueryProjection<T, TProjection> projection) where T:class

@@ -85,6 +85,12 @@ namespace GenRepo.Client.RepositoryUsage
 
             //var query = userFilter.Project(p => new {p.Id, p.Category});
             //var items = _repository.Get(query);
+
+            var keyboardFilter = Filter<Product>.Create(p => p.Category == "keyboard");
+            
+            //var q1 = keyboardFilter.Query.OrderBy(p=>p.Asc(l=>l.Category));
+            //var k = _repository.Get(q);
+
         }
          
     }

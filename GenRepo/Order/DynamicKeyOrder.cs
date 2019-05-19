@@ -8,12 +8,27 @@ namespace GenRepo
     internal class DynamicKeyOrder<T> : IOrder<T>
     {
         private readonly string _propertyName;
-        private readonly bool _ascending;
-        public DynamicKeyOrder(string propertyName, bool ascending)
+        private readonly Func<MethodInfo> _orderFunc;
+
+        private static readonly Func<MethodInfo> AscendingOrder = () => typeof(Queryable).GetMethods().Single(m => m.Name == "OrderBy" && m.GetParameters().Length == 2);
+        private static readonly Func<MethodInfo> DescendingOrder = () => typeof(Queryable).GetMethods().Single(m => m.Name == "OrderByDescending" && m.GetParameters().Length == 2);
+
+        private DynamicKeyOrder(string propertyName, Func<MethodInfo> orderFunc)
         {
-            _ascending = ascending;
             _propertyName = propertyName;
+            _orderFunc = orderFunc;
         }
+
+        public static DynamicKeyOrder<T> Ascending(string propertyName)
+        {
+            return new DynamicKeyOrder<T>(propertyName, AscendingOrder);
+        }
+
+        public static DynamicKeyOrder<T> Descending(string propertyName)
+        {
+            return new DynamicKeyOrder<T>(propertyName, DescendingOrder);
+        }
+
         public IOrderedQueryable<T> Apply(IQueryable<T> queryable)
         {
             //Create parameter named "o"
@@ -33,17 +48,7 @@ namespace GenRepo
             var lamdbaDelegate = typeof(Func<,>).MakeGenericType(typeof(T), memberType);
             var lambdaExpression = Expression.Lambda(lamdbaDelegate, property, parameter);
 
-            MethodInfo method;
-            //Find the OrderBy or OrderByDecending method accepting two arguments, there are overloaded methods which accept more than two arguments.
-            if (_ascending)
-            {
-                method = typeof(Queryable).GetMethods().Single(m => m.Name == "OrderBy" && m.GetParameters().Length == 2);
-            }
-            else
-            {
-                method = typeof(Queryable).GetMethods().Single(m => m.Name == "OrderByDescending" && m.GetParameters().Length == 2);
-            }
-
+            var method = _orderFunc();
             //Costruct the method by providing both generic types- TSource and TKey.
             var methodName = method.MakeGenericMethod(typeof(T), memberType);
 

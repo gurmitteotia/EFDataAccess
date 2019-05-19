@@ -15,11 +15,11 @@ namespace GenRepo
         }
         public IOrder<T> Asc(string propertyName)
         {
-            return new DynamicKeyOrder<T>(propertyName, true);
+            return DynamicKeyOrder<T>.Ascending(propertyName);
         }
         public IOrder<T> Desc(string propertyName)
         {
-            return new DynamicKeyOrder<T>(propertyName, false);
+            return DynamicKeyOrder<T>.Descending(propertyName);
         }
     }
 }

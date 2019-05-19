@@ -20,6 +20,7 @@ namespace GenRepo
         {
             return new OrderedQuery<T>(this, orderFunc(new Order<T>()));
         }
+       
         //public QueryProjection<T, TProjection> Project<TProjection>(Expression<Func<T, TProjection>> projection)
         //{
         //    return new QueryProjection<T, TProjection>(this, projection);

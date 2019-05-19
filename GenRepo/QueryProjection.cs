@@ -1,7 +1,6 @@
 ﻿// /Copyright (c) Gurmit Teotia. Please see the LICENSE file in the project root folder for license information.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;

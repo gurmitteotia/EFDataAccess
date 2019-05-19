@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace GenRepo
 {
@@ -14,16 +13,17 @@ namespace GenRepo
         T FindByKey<T>(object key) where T : class;
 
         T FirstOrDefault<T>(IQuery<T> query) where T : class;
+        T FirstOrDefault<T>(IFilter<T> filter) where T : class;
 
-        int Count<T>(IQuery<T> query) where T : class;
-
-        IEnumerable<T> Get<T>(IFilter<T> filter) where T : class;
+        int Count<T>(IFilter<T> query) where T : class;
 
         IEnumerable<T> Get<T>(IQuery<T> query) where T : class;
+        IEnumerable<T> Get<T>(IFilter<T> filter) where T : class;
 
         IEnumerable<T> Get<T>(IQuery<T> query, int pageIndex, int pageSize) where T : class;
-
+        IEnumerable<T> Get<T>(IFilter<T> filter, int pageIndex, int pageSize) where T : class;
         IEnumerable<TProjection> Get<T, TProjection>(QueryProjection<T, TProjection> projection) where T : class;
+
         void Save();
     }
 }

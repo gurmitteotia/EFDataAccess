@@ -25,20 +25,24 @@ namespace GenRepo
             return new Filter<T>(ExpressionBuilder.Build<T>(propertyName, operation, value));
         }
 
+        public static Filter<T> GetEverything => Create(t => true);
+
         public IQueryable<T> Apply(IQueryable<T> items)
         {
             return items.Where(_filterExpression);
         }
 
-        public Filter<T> And(Filter<T> other)
-        {
-            return new Filter<T>(_filterExpression.And(other._filterExpression));
-        }
+        public Filter<T> And(Filter<T> other) => new Filter<T>(_filterExpression.And(other._filterExpression));
 
-        public Filter<T> Or(Filter<T> other)
-        {
-            return new Filter<T>(_filterExpression.Or(other._filterExpression));
-        }
+        public Filter<T> And(Expression<Func<T, bool>> other) => And(Create(other));
+
+        public Filter<T> And(string propertyName, OperationType operation, object value) => And(Create(propertyName, operation, value));
+
+        public Filter<T> Or(Filter<T> other) => new Filter<T>(_filterExpression.Or(other._filterExpression));
+
+        public Filter<T> Or(Expression<Func<T, bool>> other) => Or(Create(other));
+
+        public Filter<T> Or(string propertyName, OperationType operation, object value) => Or(Create(propertyName, operation, value));
 
         public Query<T> Query=>new Query<T>(this);
     }

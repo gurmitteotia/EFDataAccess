@@ -22,5 +22,10 @@
         {
             return 2323 + _id.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return $"TestItem: Id:{_id}";
+        }
     }
 }

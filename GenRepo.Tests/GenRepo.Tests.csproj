@@ -49,10 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Filter\FilterTest.cs" />
+    <Compile Include="FilterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OrderedQueryTest.cs" />
-    <Compile Include="GenericSpecificationTests.cs" />
+    <Compile Include="GenericSpecificationTest.cs" />
+    <Compile Include="QueryProjectionTest.cs" />
     <Compile Include="TestItem.cs" />
   </ItemGroup>
   <ItemGroup>
