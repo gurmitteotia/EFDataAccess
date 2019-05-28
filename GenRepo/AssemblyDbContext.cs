@@ -6,7 +6,7 @@ namespace GenRepo
     public class AssemblyDbContext : DbContext
     {
         private readonly Assembly _mapperAssembly;
-        public AssemblyDbContext(Assembly mapperAssembly, string connectionName):base(connectionName)
+        public AssemblyDbContext(Assembly mapperAssembly, string nameOrConnectionString):base(nameOrConnectionString)
         {
             _mapperAssembly = mapperAssembly;
         }
@@ -19,5 +19,6 @@ namespace GenRepo
         {
             modelBuilder.Configurations.AddFromAssembly(_mapperAssembly);
         }
+        
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace GenRepo
 {
@@ -20,10 +21,9 @@ namespace GenRepo
         {
             return new OrderedQuery<T>(this, orderFunc(new Order<T>()));
         }
-       
-        //public QueryProjection<T, TProjection> Project<TProjection>(Expression<Func<T, TProjection>> projection)
-        //{
-        //    return new QueryProjection<T, TProjection>(this, projection);
-        //}
+        public QueryProjection<T,TProjection> Projection<TProjection>(Expression<Func<T, TProjection>> projection)
+        {
+            return new QueryProjection<T, TProjection>(this, projection);
+        }
     }
 }
