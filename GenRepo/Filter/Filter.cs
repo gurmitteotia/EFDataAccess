@@ -25,9 +25,9 @@ namespace GenRepo
             return new Filter<T>(ExpressionBuilder.Build<T>(propertyName, operation, value));
         }
 
-        public static Filter<T> GetEverything => Create(t => true);
+        public static readonly Filter<T> Nothing= new Filter<T>(t=>true);
 
-        public IQueryable<T> Apply(IQueryable<T> items)
+        public virtual IQueryable<T> Apply(IQueryable<T> items)
         {
             return items.Where(_filterExpression);
         }
@@ -43,7 +43,5 @@ namespace GenRepo
         public Filter<T> Or(Expression<Func<T, bool>> other) => Or(Create(other));
 
         public Filter<T> Or(string propertyName, OperationType operation, object value) => Or(Create(propertyName, operation, value));
-
-        public Query<T> Query=>new Query<T>(this);
     }
 }

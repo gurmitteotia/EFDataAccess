@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace GenRepo
 {
-    public class Query<T> : IQuery<T>
+    internal class Query<T> : IQuery<T>
     {
         private readonly IFilter<T> _filter;
         public Query(IFilter<T> filter)
@@ -16,14 +16,26 @@ namespace GenRepo
         {
             return _filter.Apply(items);
         }
+    }
 
-        public IQuery<T> OrderBy(Func<Order<T>, IOrder<T>> orderFunc)
+    public static class QueryExtension
+    {
+        public static IQuery<T> OrderBy<T>(this IQuery<T> query, Func<Order<T>, IOrder<T>> orderFunc)
         {
-            return new OrderedQuery<T>(this, orderFunc(new Order<T>()));
+            return new OrderedQuery<T>(query, orderFunc(new Order<T>()));
         }
-        public QueryProjection<T,TProjection> Projection<TProjection>(Expression<Func<T, TProjection>> projection)
+
+        public static ProjectedQuery<T,TProjection> ToProjection<T,TProjection>(this IQuery<T> query, Expression<Func<T, TProjection>> projection)
         {
-            return new QueryProjection<T, TProjection>(this, projection);
+            return new ProjectedQuery<T, TProjection>(query, projection);
         }
+    }
+
+    public static class Query
+    {
+        public static IQuery<T> WithFilter<T>(Filter<T> filter)
+         => new Query<T>(filter);
+
+        public static IQuery<T> Everything<T>() => WithFilter(Filter<T>.Nothing);
     }
 }

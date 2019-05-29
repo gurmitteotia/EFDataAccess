@@ -6,7 +6,7 @@ namespace GenRepo.Client.Model.Mappings
     {
         public ProductEntityConfiguration()
         {
-            HasKey(e => e.Id).Property(e => e.Id).HasColumnName("EmployeeId");
+            HasKey(e => e.Id).Property(e => e.Id).HasColumnName("ProductId");
             Property(e => e.Name).HasMaxLength(255).IsRequired();
             Property(p => p.Description).HasMaxLength(1024);
             Property(p => p.Category).HasMaxLength(255).IsRequired();

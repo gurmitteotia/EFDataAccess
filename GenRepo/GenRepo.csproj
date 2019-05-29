@@ -63,7 +63,7 @@
     <Compile Include="Filter\ExpressionExtensions.cs" />
     <Compile Include="Query.cs" />
     <Compile Include="Filter\OperationType.cs" />
-    <Compile Include="QueryProjection.cs" />
+    <Compile Include="ProjectedQuery.cs" />
     <Compile Include="Specification.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -44,14 +44,14 @@ namespace GenRepo.Client.RepositoryUsage
         [Test]
         public void ScratchPadTest()
         {
-            var q = Filter<Product>.Create(p => p.Price > 30).Query.Projection(ReusableProjections.ProductView);
+            var q = Query.WithFilter(Filter<Product>.Create(p => p.Price > 30)).ToProjection(ReusableProjections.ProductView);
 
             var items = _repository.Get(q).ToArray();
 
             Assert.That(items.Length,Is.EqualTo(3));
         }
 
-        public class ReusableProjections
+        private class ReusableProjections
         {
             public static Expression<Func<Product, ProductView>> ProductView 
                 => p => new ProductView() { BrandName = p.Brand.Name, Id = p.Id, Name = p.Name };

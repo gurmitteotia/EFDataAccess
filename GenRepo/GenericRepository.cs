@@ -68,7 +68,7 @@ namespace GenRepo
             return Get(new Query<T>(filter), pageIndex, pageSize);
         }
 
-        public IEnumerable<TProjection> Get<T, TProjection>(QueryProjection<T, TProjection> projection) where T:class
+        public IEnumerable<TProjection> Get<T, TProjection>(ProjectedQuery<T, TProjection> projection) where T:class
         {
             return projection.Evaluate(_dataContext.Set<T>());
         }

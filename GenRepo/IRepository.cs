@@ -22,7 +22,7 @@ namespace GenRepo
 
         IEnumerable<T> Get<T>(IQuery<T> query, int pageIndex, int pageSize) where T : class;
         IEnumerable<T> Get<T>(IFilter<T> filter, int pageIndex, int pageSize) where T : class;
-        IEnumerable<TProjection> Get<T, TProjection>(QueryProjection<T, TProjection> projection) where T : class;
+        IEnumerable<TProjection> Get<T, TProjection>(ProjectedQuery<T, TProjection> projection) where T : class;
 
         void Save();
     }

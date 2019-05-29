@@ -43,9 +43,9 @@ namespace GenRepo
             return _expression;
         }
 
-        public static implicit operator Query<T>(Specification<T> spec)
+        public static implicit operator Filter<T>(Specification<T> spec)
         {
-            return new Query<T>(new Filter<T>(spec._expression));
+            return new Filter<T>(spec._expression);
         }
         private Func<T, bool> CachedCompile()
         {

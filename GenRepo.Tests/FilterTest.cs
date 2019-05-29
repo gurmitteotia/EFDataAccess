@@ -122,10 +122,10 @@ namespace GenRepo.Tests
         }
 
         [Test]
-        public void Filter_get_everything()
+        public void Filter_nothing()
         {
             var items = new[] { new TestItem(10) { Salary = 5000 }, new TestItem(12) { Salary = 1000 }, };
-            var filter = Filter<TestItem>.GetEverything;
+            var filter = Filter<TestItem>.Nothing;
 
             var filteredItems = filter.Apply(items.AsQueryable());
 
@@ -133,10 +133,10 @@ namespace GenRepo.Tests
         }
 
         [Test]
-        public void Combine_get_everything_filter_with_a_specific_filter()
+        public void Combine_nothing_filter_with_a_specific_filter()
         {
             var items = new[] { new TestItem(10) { Salary = 5000 }, new TestItem(12) { Salary = 1000 }, };
-            var filter = Filter<TestItem>.GetEverything.And(Filter<TestItem>.Create(p => p.Salary > 2000));
+            var filter = Filter<TestItem>.Nothing.And(Filter<TestItem>.Create(p => p.Salary > 2000));
 
             var filteredItems = filter.Apply(items.AsQueryable());
 

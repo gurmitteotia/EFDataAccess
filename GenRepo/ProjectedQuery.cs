@@ -7,12 +7,12 @@ using System.Linq.Expressions;
 
 namespace GenRepo
 {
-    public class QueryProjection<T,TProjection>
+    public class ProjectedQuery<T,TProjection>
     {
         private readonly IQuery<T> _query;
         private readonly Expression<Func<T, TProjection>> _projection;
 
-        public QueryProjection(IQuery<T> query, Expression<Func<T,TProjection>> projection)
+        public ProjectedQuery(IQuery<T> query, Expression<Func<T,TProjection>> projection)
         {
             _query = query;
             _projection = projection;
