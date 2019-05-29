@@ -36,13 +36,10 @@ namespace GenRepo.Tests
         public void Deserialize_filter_with_one_greater_than_condition()
         {
             var d = @"{
-  ""Operator"" : ""Unary"",
-  ""LHS"" : {
-		""Property"" : ""Salary"",
-		""Operation"" : ""GreaterThan"",
-		""Value"" : ""10000""
-	}
-}";
+			""Property"" : ""Salary"",
+			""Operation"" : ""GreaterThan"",
+			""Value"" : ""10000""
+		}";
 
             var jsonFilter = new JsonFilter(d);
             var f = jsonFilter.Instance<TestItem>();
@@ -56,13 +53,10 @@ namespace GenRepo.Tests
         public void Deserialize_filter_with_one_less_than_condition()
         {
             var d = @"{
-  ""Operator"" : ""Unary"",
-  ""LHS"" : {
-		""Property"" : ""Salary"",
-		""Operation"" : ""LessThan"",
-		""Value"" : ""10000""
-	}
-}";
+			""Property"" : ""Salary"",
+			""Operation"" : ""LessThan"",
+			""Value"" : ""10000""
+		}";
 
             var jsonFilter = new JsonFilter(d);
             var f = jsonFilter.Instance<TestItem>();
@@ -79,15 +73,15 @@ namespace GenRepo.Tests
             var d = @"{
   ""Operator"" : ""And"",
   ""LHS"" : {
-		""Property"" : ""Salary"",
-		""Operation"" : ""GreaterThan"",
-		""Value"" : ""10000""
+			""Property"" : ""Salary"",
+			""Operation"" : ""GreaterThan"",
+			""Value"" : ""10000""
 	},
   ""RHS"" :{
-  		""Property"" : ""Name"",
-		""Operation"" : ""StartsWith"",
-		""Value"" : ""Ra""
-	}  
+  	    	""Property"" : ""Name"",
+			""Operation"" : ""StartsWith"",
+			""Value"" : ""Ra""
+    }
 }";
             var jsonFilter = new JsonFilter(d);
             var f = jsonFilter.Instance<TestItem>();
@@ -103,14 +97,14 @@ namespace GenRepo.Tests
             var d = @"{
   ""Operator"" : ""Or"",
   ""LHS"" : {
-		""Property"" : ""Salary"",
-		""Operation"" : ""GreaterThan"",
-		""Value"" : ""10000""
+			""Property"" : ""Salary"",
+			""Operation"" : ""GreaterThan"",
+			""Value"" : ""10000""
 	},
   ""RHS"" :{
-  		""Property"" : ""Name"",
-		""Operation"" : ""StartsWith"",
-		""Value"" : ""Ra""
+			""Property"" : ""Name"",
+			""Operation"" : ""StartsWith"",
+			""Value"" : ""Ra""
 	}  
 }";
             var jsonFilter = new JsonFilter(d);
@@ -119,6 +113,38 @@ namespace GenRepo.Tests
             var filteredItems = f.Apply(_testItems).ToArray();
 
             Assert.That(filteredItems.Length, Is.EqualTo(4));
+        }
+
+        [Test]
+        public void Deserialize_combined_filter_tree()
+        {
+            var d = @"{
+  ""Operator"" : ""Or"",
+  ""LHS"" : {
+		""Operator"" : ""And"",
+		""LHS"" : {
+			""Property"" : ""Salary"",
+	    	""Operation"" : ""GreaterThan"",
+			""Value"" : ""10000""
+		},
+		""RHS"" :{
+			""Property"" : ""Name"",
+			""Operation"" : ""StartsWith"",
+			""Value"" : ""Ra""
+		}
+  },
+  ""RHS"" :{
+	""Property"" : ""Name"",
+	""Operation"" : ""StartsWith"",
+	""Value"" : ""Shy""
+  } 
+}";
+            var jsonFilter = new JsonFilter(d);
+            var f = jsonFilter.Instance<TestItem>();
+
+            var filteredItems = f.Apply(_testItems).ToArray();
+
+            Assert.That(filteredItems.Length, Is.EqualTo(2));
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 
 namespace GenRepo
 {
@@ -15,77 +16,70 @@ namespace GenRepo
 
         public Filter<T> Instance<T>()
         {
-            var filterDto = JsonConvert.DeserializeObject<TopFilter>(_jsonData);
+            var filterDto = JObject.Parse(_jsonData);
 
             return Build<T>(filterDto);
         }
 
-        private Filter<T> Build<T>(TopFilter filterDto)
+        private Filter<T> Build<T>(JToken filter)
         {
-            if (filterDto.Operator==OperatorType.None)
-                return GenRepo.Filter<T>.Nothing;
-            switch (filterDto.Operator)
+            var property = filter["Property"];
+            if (property != null)
+                return BuildLeaf<T>(filter);
+            var op = filter["Operator"];
+            if (op != null)
             {
-                case OperatorType.None:
-                    return GenRepo.Filter<T>.Nothing;
-                case OperatorType.Unary:
-                    return BuildUnary<T>(filterDto);
-                case OperatorType.And:
-                    return BuildAnd<T>(filterDto);
-                case OperatorType.Or:
-                    return BuildOr<T>(filterDto);
+                var opValue = ParseEnum<OperatorType>(op.Value<string>());
+                switch (opValue)
+                {
+                    case OperatorType.And:
+                        return BuildAnd<T>(filter);
+                    case OperatorType.Or:
+                        return BuildOr<T>(filter);
+                    default:
+                        throw new ArgumentException($"Not supported operator {opValue}");
+                }
             }
-            
-            throw new ArgumentException("Unknown operator type");
+            return Filter<T>.Nothing;
         }
 
-        private Filter<T> BuildOr<T>(TopFilter filterDto)
+        private Filter<T> BuildOr<T>(JToken o)
         {
-            var lhs = Filter<T>(filterDto.LHS);
-            var rhs = Filter<T>(filterDto.RHS);
+            var lhs = Build<T>(o["LHS"]);
+            var rhs = Build<T>(o["RHS"]);
             return lhs.Or(rhs);
         }
 
-        private static Filter<T> Filter<T>(FilterDto filterDto)
+        private Filter<T> BuildLeaf<T>(JToken o)
         {
-            return GenRepo.Filter<T>.Create(filterDto.Property, filterDto.Operation, filterDto.Value);
+            var dto = o.ToObject<LeafFilterExpression>();
+            return Filter<T>.Create(dto.Property, dto.Operation, dto.Value);
         }
 
-        private Filter<T> BuildAnd<T>(TopFilter filterDto)
+        private Filter<T> BuildAnd<T>(JToken o)
         {
-            var lhs = Filter<T>(filterDto.LHS);
-            var rhs = Filter<T>(filterDto.RHS);
+            var lhs = Build<T>(o["LHS"]);
+            var rhs = Build<T>(o["RHS"]);
             return lhs.And(rhs);
         }
 
-        private Filter<T> BuildUnary<T>(TopFilter filterDto)
+        private static T ParseEnum<T>(string value)
         {
-            return Filter<T>(filterDto.LHS);
+            return (T)Enum.Parse(typeof(T), value, true);
         }
-
-        private class FilterDto
+        private class LeafFilterExpression 
         {
             public string Property;
             [JsonConverter(typeof(StringEnumConverter))]
             public OperationType Operation;
             public object Value;
+          
         }
-
-        private class TopFilter
-        {
-            [JsonConverter(typeof(StringEnumConverter))]
-            public OperatorType Operator;
-            public FilterDto LHS;
-            public FilterDto RHS;
-        }
-
         private enum OperatorType
         {
             None,
-            Unary,
             And,
             Or,
-            
         }
     }
 
