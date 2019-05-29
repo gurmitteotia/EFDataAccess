@@ -57,7 +57,7 @@ namespace GenRepo.Client.RepositoryUsage
                 => p => new ProductView() { BrandName = p.Brand.Name, Id = p.Id, Name = p.Name };
         }
 
-        public class ProductView
+        private class ProductView
         {
             public int Id { get; set; }
 
