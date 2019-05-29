@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace GenRepo
 {
-    public class ProjectedQuery<TIn,TOut> : IQuery<TIn, TOut>
+    internal class ProjectedQuery<TIn,TOut> : IQuery<TIn, TOut>
     {
         private readonly IQuery<TIn,TIn> _query;
         private readonly Expression<Func<TIn, TOut>> _projection;
