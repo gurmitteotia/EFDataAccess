@@ -12,17 +12,16 @@ namespace GenRepo
 
         T FindByKey<T>(object key) where T : class;
 
-        T FirstOrDefault<T>(IQuery<T> query) where T : class;
+        TOut FirstOrDefault<TIn, TOut>(IQuery<TIn, TOut> query) where TIn : class;
         T FirstOrDefault<T>(IFilter<T> filter) where T : class;
 
         int Count<T>(IFilter<T> query) where T : class;
 
-        IEnumerable<T> Get<T>(IQuery<T> query) where T : class;
+        IEnumerable<TOut> Get<TIn, TOut>(IQuery<TIn,TOut> query) where TIn : class;
         IEnumerable<T> Get<T>(IFilter<T> filter) where T : class;
 
-        IEnumerable<T> Get<T>(IQuery<T> query, int pageIndex, int pageSize) where T : class;
-        IEnumerable<T> Get<T>(IFilter<T> filter, int pageIndex, int pageSize) where T : class;
-        IEnumerable<TProjection> Get<T, TProjection>(ProjectedQuery<T, TProjection> projection) where T : class;
+        IEnumerable<TOut> Get<TIn, TOut>(IQuery<TIn, TOut> query, int pageIndex, int pageSize) where TIn : class where TOut : class;
+        IEnumerable<TIn> Get<TIn>(IFilter<TIn> filter, int pageIndex, int pageSize) where TIn : class;
 
         void Save();
     }

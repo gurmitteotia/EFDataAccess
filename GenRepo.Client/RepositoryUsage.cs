@@ -44,7 +44,7 @@ namespace GenRepo.Client.RepositoryUsage
         [Test]
         public void ScratchPadTest()
         {
-            var q = Query.WithFilter(Filter<Product>.Create(p => p.Price > 30)).ToProjection(ReusableProjections.ProductView);
+            var q = Query.WithFilter(Filter<Product>.Create(p => p.Price > 30)).ToProjection(ReusableProjections.ProductView).OrderBy(o=>o.Asc(p=>p.BrandName));
 
             var items = _repository.Get(q).ToArray();
 

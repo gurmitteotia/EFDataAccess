@@ -2,18 +2,18 @@
 
 namespace GenRepo
 {
-    internal class OrderedQuery<T> : IQuery<T>
+    internal class OrderedQuery<TIn, TOut> : IQuery<TIn, TOut>
     {
-        private readonly IQuery<T> _query;
-        private readonly IOrder<T> _order;
+        private readonly IQuery<TIn,TOut> _query;
+        private readonly IOrder<TOut> _order;
 
-        public OrderedQuery(IQuery<T> query, IOrder<T> order)
+        public OrderedQuery(IQuery<TIn,TOut> query, IOrder<TOut> order)
         {
             _query = query;
             _order = order;
         }
 
-        public IQueryable<T> Execute(IQueryable<T> items)
+        public IQueryable<TOut> Execute(IQueryable<TIn> items)
         {
             return _order.Apply(_query.Execute(items));
         }

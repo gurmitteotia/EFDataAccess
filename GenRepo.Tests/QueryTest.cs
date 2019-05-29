@@ -71,7 +71,7 @@ namespace GenRepo.Tests
             var query = Query.WithFilter(Filter<TestItem>.Create(t => t.Salary > 15000));
             var projection = query.ToProjection(e => new { e.Name, e.Salary });
 
-            var filteredItems = projection.Evaluate(_testItems.AsQueryable()).ToArray();
+            var filteredItems = projection.Execute(_testItems.AsQueryable()).ToArray();
 
             Assert.That(filteredItems.Length, Is.EqualTo(1));
             Assert.That(filteredItems[0].Name, Is.EqualTo("David"));
@@ -85,6 +85,19 @@ namespace GenRepo.Tests
             var sortedItems = sortQuery.Execute(_testItems).ToList();
 
             Assert.That(sortedItems, Is.EqualTo(new[] { new TestItem(13), new TestItem(10), new TestItem(12), new TestItem(11)  }));
+        }
+
+        [Test]
+        public void Order_query_after_projection()
+        {
+            var query = Query.WithFilter(Filter<TestItem>.Create(t => t.Salary > 10000));
+            var projection = query.ToProjection(e => new { e.Name, e.Salary }).OrderBy(e=>e.Asc(a=>a.Salary));
+
+            var filteredItems = projection.Execute(_testItems.AsQueryable()).ToArray();
+
+            Assert.That(filteredItems.Length, Is.EqualTo(2));
+            Assert.That(filteredItems[0].Name, Is.EqualTo("Shyam"));
+            Assert.That(filteredItems[1].Name, Is.EqualTo("David"));
         }
     }
 }

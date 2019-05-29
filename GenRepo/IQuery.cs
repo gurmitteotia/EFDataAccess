@@ -2,8 +2,8 @@
 
 namespace GenRepo
 {
-    public interface IQuery<T>
+    public interface IQuery<in TIn, out TOut>
     {
-        IQueryable<T> Execute(IQueryable<T> items);
+        IQueryable<TOut> Execute(IQueryable<TIn> items);
     }
 }

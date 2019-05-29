@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
@@ -29,7 +28,7 @@ namespace GenRepo
             return _dataContext.Set<T>().Find(key);
         }
 
-        public T FirstOrDefault<T>(IQuery<T> query) where T : class
+        public TOut FirstOrDefault<TIn, TOut>(IQuery<TIn, TOut> query) where TIn : class
         {
             return Get(query).FirstOrDefault();
         }
@@ -53,11 +52,11 @@ namespace GenRepo
         {
             return _dataContext.Set<T>().AsEnumerable();
         }
-        public IEnumerable<T> Get<T>(IQuery<T> query) where T : class
+        public IEnumerable<TOut> Get<TIn, TOut>(IQuery<TIn, TOut> query) where TIn : class
         {
             return FilteredItems(query).AsEnumerable();
         }
-        public IEnumerable<T> Get<T>(IQuery<T> query, int pageIndex, int pageSize) where T : class
+        public IEnumerable<TOut> Get<TIn, TOut>(IQuery<TIn, TOut> query, int pageIndex, int pageSize) where TIn : class where  TOut:class 
         {
             int skipItems = pageIndex * pageSize;
             return FilteredItems(query).Skip(skipItems).Take(pageSize).AsNoTracking().AsEnumerable();
@@ -68,19 +67,14 @@ namespace GenRepo
             return Get(new Query<T>(filter), pageIndex, pageSize);
         }
 
-        public IEnumerable<TProjection> Get<T, TProjection>(ProjectedQuery<T, TProjection> projection) where T:class
-        {
-            return projection.Evaluate(_dataContext.Set<T>());
-        }
-
         public void Save()
         {
             _dataContext.SaveChanges();
         }
 
-        private IQueryable<T> FilteredItems<T>(IQuery<T> query) where T: class
+        private IQueryable<TOut> FilteredItems<TIn, TOut>(IQuery<TIn, TOut> query) where TIn : class
         {
-            return query.Execute(_dataContext.Set<T>());
+            return query.Execute(_dataContext.Set<TIn>());
         }
     }
 }
