@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace GenRepo.Tests
 {
     [TestFixture]
-    public class JsonFilterTest
+    public class JsonFilterDeserializationTest
     {
         private IQueryable<TestItem> _testItems;
 

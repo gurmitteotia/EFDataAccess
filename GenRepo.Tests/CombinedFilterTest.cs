@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace GenRepo.Tests
 {
     [TestFixture]
-    public class FilterTest
+    public class CombinedFilterTest
     {
 
         [Test]
@@ -62,17 +62,6 @@ namespace GenRepo.Tests
             var filteredItems = f1.Or(t => string.Equals(t.Name, "ram")).Apply(items.AsQueryable());
 
             Assert.That(filteredItems, Is.EqualTo(new[] { new TestItem(12) }));
-        }
-
-        [Test]
-        public void Filter_using_dynamic_field()
-        {
-            var items = new[] { new TestItem(10) { Salary = 5000 }, new TestItem(12) { Salary = 1000 }, };
-            var filter = Filter<TestItem>.Create("Salary", OperationType.GreaterThan, 4000);
-
-            var filteredItems = filter.Apply(items.AsQueryable());
-
-            Assert.That(filteredItems, Is.EqualTo(new[] { new TestItem(10) }));
         }
 
         [Test]
