@@ -20,7 +20,7 @@ EntityFramework has already done the good job of implementing Repository, Query 
 2. **Uniform API to filter on known and dynamic fields**: 
    ```cs
 
-       //Create a simple filter keyboards with known field
+       //Filter to query only keyboards with known field
        var keyboard = Filter<Product>.Create(p=>p.Category=="KeyBoard");
        //Get all keyboards
        var keyboards = repository.Get(keyboard)
@@ -38,14 +38,14 @@ EntityFramework has already done the good job of implementing Repository, Query 
        var popular = Filter<Product>.Create ("Rating", OperationType.GreaterThan, 4)
        var popularKeyboards = repository.Get(keyboard.And(popular));
    ```
-3. **Uniform API to support ordering for known and dynamic fields**:
+3. **Uniform API to support ordering on known and dynamic fields**:
    ```cs
 
         var orderedProduct = Query.Everything<Product>().OrderBy(o=>o.Asc(p=>p.Name));
         var orderedProducts = repository.Get(orderedProduct);
         ...
         
-        //Sort on dynamic field. It is usefull when user has the choice to sort the data in UI.
+        //Order on dynamic field. It is usefull when user has the choice to sort the data in UI.
         var orderedProduct = Query.Everything<Product>().OrderBy(o=>o.Asc("Name"));
         var orderedProducts = repository.Get(orderedProduct)
 
