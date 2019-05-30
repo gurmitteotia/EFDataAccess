@@ -1,6 +1,4 @@
 ﻿using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
 namespace GenRepo
@@ -26,15 +24,15 @@ namespace GenRepo
             var property = filter["Property"];
             if (property != null)
                 return BuildLeaf<T>(filter);
-            var op = filter["Operator"];
+            var op = filter["LogicalOperator"];
             if (op != null)
             {
-                var opValue = ParseEnum<OperatorType>(op.Value<string>());
+                var opValue = ParseEnum<LogicalOperator>(op.Value<string>());
                 switch (opValue)
                 {
-                    case OperatorType.And:
+                    case LogicalOperator.And:
                         return BuildAnd<T>(filter);
-                    case OperatorType.Or:
+                    case LogicalOperator.Or:
                         return BuildOr<T>(filter);
                     default:
                         throw new ArgumentException($"Not supported operator {opValue}");
@@ -66,20 +64,6 @@ namespace GenRepo
         private static T ParseEnum<T>(string value)
         {
             return (T)Enum.Parse(typeof(T), value, true);
-        }
-        private class LeafFilterExpression 
-        {
-            public string Property;
-            [JsonConverter(typeof(StringEnumConverter))]
-            public OperationType Operation;
-            public object Value;
-          
-        }
-        private enum OperatorType
-        {
-            None,
-            And,
-            Or,
         }
     }
 

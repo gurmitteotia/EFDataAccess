@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 
@@ -71,7 +72,7 @@ namespace GenRepo.Tests
         public void Deserialize_combined_filter_with_and_operator()
         {
             var d = @"{
-  ""Operator"" : ""And"",
+  ""LogicalOperator"" : ""And"",
   ""LHS"" : {
 			""Property"" : ""Salary"",
 			""Operation"" : ""GreaterThan"",
@@ -95,7 +96,7 @@ namespace GenRepo.Tests
         public void Deserialize_combined_filter_with_or_operator()
         {
             var d = @"{
-  ""Operator"" : ""Or"",
+  ""LogicalOperator"" : ""Or"",
   ""LHS"" : {
 			""Property"" : ""Salary"",
 			""Operation"" : ""GreaterThan"",
@@ -119,9 +120,9 @@ namespace GenRepo.Tests
         public void Deserialize_combined_filter_tree()
         {
             var d = @"{
-  ""Operator"" : ""Or"",
+  ""LogicalOperator"" : ""Or"",
   ""LHS"" : {
-		""Operator"" : ""And"",
+		""LogicalOperator"" : ""And"",
 		""LHS"" : {
 			""Property"" : ""Salary"",
 	    	""Operation"" : ""GreaterThan"",
@@ -145,6 +146,26 @@ namespace GenRepo.Tests
             var filteredItems = f.Apply(_testItems).ToArray();
 
             Assert.That(filteredItems.Length, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void Throws_exception_for_invalid_logical_operator()
+        {
+            var d = @"{
+  ""LogicalOperator"" : ""INVALID"",
+  ""LHS"" : {
+			""Property"" : ""Salary"",
+			""Operation"" : ""GreaterThan"",
+			""Value"" : ""10000""
+	},
+  ""RHS"" :{
+  	    	""Property"" : ""Name"",
+			""Operation"" : ""StartsWith"",
+			""Value"" : ""Ra""
+    }
+}";
+            var jsonFilter = new JsonFilter(d);
+            Assert.Throws<ArgumentException>(()=>jsonFilter.Instance<TestItem>());
         }
     }
 }
