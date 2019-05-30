@@ -5,24 +5,41 @@ using System.Reflection;
 using GenRepo.Client.Model;
 using NUnit.Framework;
 
-namespace GenRepo.Client.RepositoryUsage
+namespace GenRepo.Client
 {
     [TestFixture]
     public class RepositoryUsage
     {
         private IRepository _repository;
+        private AssemblyDbContext _scalableDbContext;
 
         [SetUp]
         public void Setup()
         {
-            var scalableDbContext = new AssemblyDbContext(Assembly.GetExecutingAssembly(), "EFDataAccess");
-            _repository = new GenericRepository(scalableDbContext);
+            _scalableDbContext = new AssemblyDbContext(Assembly.GetExecutingAssembly(), "EFDataAccess");
+            _repository = new GenericRepository(_scalableDbContext);
+            AddDataToRepository();
+        }
+
+        [TearDown]
+        public void Teardown()
+        {
+            _scalableDbContext.Database.Delete();
         }
 
         [Test]
-        public void AddDataToRepository()
+        public void ProjectionTest()
         {
-            var dell = new Brand() {Name = BrandName.Dell};
+            var q = Query.WithFilter(Filter<Product>.Create(p => p.Price > 30)).ToProjection(ReusableProjections.ProductView).OrderBy(o=>o.Asc(p=>p.BrandName));
+
+            var items = _repository.Get(q).ToArray();
+
+            Assert.That(items.Length,Is.EqualTo(3));
+        }
+
+        private void AddDataToRepository()
+        {
+            var dell = new Brand() { Name = BrandName.Dell };
 
             var samsung = new Brand() { Name = BrandName.Samsung };
 
@@ -39,16 +56,6 @@ namespace GenRepo.Client.RepositoryUsage
             _repository.Add(product);
 
             _repository.Save();
-        }
-
-        [Test]
-        public void ScratchPadTest()
-        {
-            var q = Query.WithFilter(Filter<Product>.Create(p => p.Price > 30)).ToProjection(ReusableProjections.ProductView).OrderBy(o=>o.Asc(p=>p.BrandName));
-
-            var items = _repository.Get(q).ToArray();
-
-            Assert.That(items.Length,Is.EqualTo(3));
         }
 
         private class ReusableProjections
