@@ -14,8 +14,8 @@ EntityFramework has already done the good job of implementing Repository, Query 
         repository.Add(new Product(){....})    
         //add customer
         repository.Add(new Customer(){....})
-     ```
-You can read about ScaleableDataContext in [blog post](http://gurmitteotia.blogspot.co.uk/2015/07/entity-frameworks-entities-to-database.html)
+   ```
+ You can read about ScaleableDataContext in [blog post](http://gurmitteotia.blogspot.co.uk/2015/07/entity-frameworks-entities-to-database.html)
 
 2. **Uniform API to filter on known and dynamic fields**: 
    ```cs
@@ -62,7 +62,7 @@ You can read about ScaleableDataContext in [blog post](http://gurmitteotia.blogs
    ```
 
 5. **Supports deserialization/serialization of filter expression tree**: You can deserialize the filter expressions from JSON representation.
-  ```cs
+   ```cs
         var d = @"{
 			""Property"" : ""Category"",
 			""Operation"" : ""EqualTo"",
@@ -72,38 +72,38 @@ You can read about ScaleableDataContext in [blog post](http://gurmitteotia.blogs
         var jsonFilter = new JsonFilterExpression(d);
         var filter = jsonFilter.Filter<TestItem>();
         var filteredProduct = repository.Get(filter);
-  
-  ```
-    You can deserialize a pretty complex filter expression, for more example please look at unit [test cases](). You can create JSON representation by hand or FilterExpression.Json as shown in following example:
- ```cs
+   ```
+ You can deserialize a pretty complex filter expression, for more example please look at unit [test cases](https://github.com/gurmitteotia/EFDataAccess/blob/master/GenRepo.Tests/JsonFilterDeserializationTest.cs). You can create JSON representation by hand or FilterExpression.Json as shown in following example:
+   ```cs
     var lhs = new LeafFilterExpression()
             { Operation = OperationType.GreaterThan, Property = "Salary", Value = 10000 };
 
-    var rhs = new LeafFilterExpression()
+      var rhs = new LeafFilterExpression()
             { Operation = OperationType.Contains, Property = "Name", Value = "am" };
 
-    var combined = new CompositeFilterExpression()
+       var combined = new CompositeFilterExpression()
                 {LHS = lhs, RHS = rhs, LogicalOperator = LogicalOperator.And};
 
-    var jsonString = combined.Json();
+      var jsonString = combined.Json();  
+   ```
+You can find more example in unit [test cases](https://github.com/gurmitteotia/EFDataAccess/blob/master/GenRepo.Tests/JsonFilterSerializationTest.cs)
 
- ```
-   You can find more example in unit [test cases]()
 6. **Supports projection**:  All query APIs on IRepository interface returns IEnumerable and not IQuerable. This will cause the EF query to be evaulated as soon as repository API is called. It is very usefull in MVC applications, where you can handle database error in controller rather then propagating them to views.
-  ```cs
-        var query = Query.Everything<Product>().ToProjection(p=>new {BrandName = p.Brand.Name, Id = p.Id, Name = p.Name});
+   ```cs
+        var query = Query.Everything<Product>()
+	           .ToProjection(p=>new {BrandName = p.Brand.Name, Id = p.Id, Name = p.Name});
         var productView = repository.Get(query);
 
-  ```
+   ```
   Please avoid following case as this will result in "Select" part being executed in C# code and not in SQL server:
-  ```cs
-      //Please Do not do this.
+   ```cs
+      //Please avoid this.
       var query = Query.Everything<Product>()
-      var productView = repository.Get(query).Select(p=>new {BrandName = p.Brand.Name, Id = p.Id, Name = p.Name});
-  ```
+      var productView = repository.Get(query)
+             .Select(p=>new {BrandName = p.Brand.Name, Id = p.Id, Name = p.Name});
+   ```
 
-
-Note: Query object not tied to generic repository you can use it directly on EntityFramework repository or your in memory data.
+Note: Query/Filter objects are not tied to generic repository you can use them with EntityFramework repository of your style or with in-memory data.
 
 
 
