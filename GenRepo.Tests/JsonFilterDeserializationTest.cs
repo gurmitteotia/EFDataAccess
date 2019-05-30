@@ -26,8 +26,8 @@ namespace GenRepo.Tests
         [Test]
         public void Deserialize_filter_with_empty_json()
         {
-            var jsonFilter = new JsonFilter(@"{}");
-            var f = jsonFilter.Instance<TestItem>();
+            var jsonFilter = new JsonFilterExpression(@"{}");
+            var f = jsonFilter.Filter<TestItem>();
 
             var filteredItems = f.Apply(_testItems).ToArray();
             Assert.That(filteredItems.Length, Is.EqualTo(5));
@@ -42,8 +42,8 @@ namespace GenRepo.Tests
 			""Value"" : ""10000""
 		}";
 
-            var jsonFilter = new JsonFilter(d);
-            var f = jsonFilter.Instance<TestItem>();
+            var jsonFilter = new JsonFilterExpression(d);
+            var f = jsonFilter.Filter<TestItem>();
 
             var filteredItems = f.Apply(_testItems).ToArray();
 
@@ -59,8 +59,8 @@ namespace GenRepo.Tests
 			""Value"" : ""10000""
 		}";
 
-            var jsonFilter = new JsonFilter(d);
-            var f = jsonFilter.Instance<TestItem>();
+            var jsonFilter = new JsonFilterExpression(d);
+            var f = jsonFilter.Filter<TestItem>();
 
             var filteredItems = f.Apply(_testItems).ToArray();
 
@@ -84,8 +84,8 @@ namespace GenRepo.Tests
 			""Value"" : ""Ra""
     }
 }";
-            var jsonFilter = new JsonFilter(d);
-            var f = jsonFilter.Instance<TestItem>();
+            var jsonFilter = new JsonFilterExpression(d);
+            var f = jsonFilter.Filter<TestItem>();
 
             var filteredItems = f.Apply(_testItems).ToArray();
 
@@ -108,8 +108,8 @@ namespace GenRepo.Tests
 			""Value"" : ""Ra""
 	}  
 }";
-            var jsonFilter = new JsonFilter(d);
-            var f = jsonFilter.Instance<TestItem>();
+            var jsonFilter = new JsonFilterExpression(d);
+            var f = jsonFilter.Filter<TestItem>();
 
             var filteredItems = f.Apply(_testItems).ToArray();
 
@@ -140,8 +140,8 @@ namespace GenRepo.Tests
 	""Value"" : ""Shy""
   } 
 }";
-            var jsonFilter = new JsonFilter(d);
-            var f = jsonFilter.Instance<TestItem>();
+            var jsonFilter = new JsonFilterExpression(d);
+            var f = jsonFilter.Filter<TestItem>();
 
             var filteredItems = f.Apply(_testItems).ToArray();
 
@@ -164,8 +164,8 @@ namespace GenRepo.Tests
 			""Value"" : ""Ra""
     }
 }";
-            var jsonFilter = new JsonFilter(d);
-            Assert.Throws<ArgumentException>(()=>jsonFilter.Instance<TestItem>());
+            var jsonFilter = new JsonFilterExpression(d);
+            Assert.Throws<ArgumentException>(()=>jsonFilter.Filter<TestItem>());
         }
     }
 }

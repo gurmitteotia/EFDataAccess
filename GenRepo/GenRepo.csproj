@@ -55,7 +55,7 @@
     <Compile Include="Filter\Filter.cs" />
     <Compile Include="Filter\IFilter.cs" />
     <Compile Include="IQuery.cs" />
-    <Compile Include="JsonFilter.cs" />
+    <Compile Include="JsonFilterExpression.cs" />
     <Compile Include="FilterExpression.cs" />
     <Compile Include="Order\OrderedQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

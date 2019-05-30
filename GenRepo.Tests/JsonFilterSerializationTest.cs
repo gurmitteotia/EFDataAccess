@@ -26,9 +26,9 @@ namespace GenRepo.Tests
         {
             var expression = new LeafFilterExpression()
                 {Operation = OperationType.GreaterThan, Property = "Salary", Value = 10000};
-            var json = new JsonFilter(expression.Json());
+            var json = new JsonFilterExpression(expression.Json());
 
-            var filteredItems = json.Instance<TestItem>().Apply(_testItems);
+            var filteredItems = json.Filter<TestItem>().Apply(_testItems);
 
             Assert.That(filteredItems.Count(), Is.EqualTo(2));
         }
@@ -45,9 +45,9 @@ namespace GenRepo.Tests
             var combined = new CompositeFilterExpression()
                 {LHS = lhs, RHS = rhs, LogicalOperator = LogicalOperator.And};
 
-            var json = new JsonFilter(combined.Json());
+            var json = new JsonFilterExpression(combined.Json());
 
-            var filteredItems = json.Instance<TestItem>().Apply(_testItems);
+            var filteredItems = json.Filter<TestItem>().Apply(_testItems);
 
             Assert.That(filteredItems.Count(), Is.EqualTo(1));
         }
@@ -64,9 +64,9 @@ namespace GenRepo.Tests
             var combined = new CompositeFilterExpression()
                 { LHS = lhs, RHS = rhs, LogicalOperator = LogicalOperator.Or };
 
-            var json = new JsonFilter(combined.Json());
+            var json = new JsonFilterExpression(combined.Json());
 
-            var filteredItems = json.Instance<TestItem>().Apply(_testItems);
+            var filteredItems = json.Filter<TestItem>().Apply(_testItems);
 
             Assert.That(filteredItems.Count(), Is.EqualTo(3));
         }

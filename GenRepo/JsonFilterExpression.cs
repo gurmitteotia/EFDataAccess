@@ -3,16 +3,16 @@ using Newtonsoft.Json.Linq;
 
 namespace GenRepo
 {
-    public class JsonFilter
+    public class JsonFilterExpression
     {
         private readonly string _jsonData;
 
-        public JsonFilter(string jsonData)
+        public JsonFilterExpression(string jsonData)
         {
             _jsonData = jsonData;
         }
 
-        public Filter<T> Instance<T>()
+        public Filter<T> Filter<T>()
         {
             var filterDto = JObject.Parse(_jsonData);
 
@@ -38,7 +38,7 @@ namespace GenRepo
                         throw new ArgumentException($"Not supported operator {opValue}");
                 }
             }
-            return Filter<T>.Nothing;
+            return GenRepo.Filter<T>.Nothing;
         }
 
         private Filter<T> BuildOr<T>(JToken o)
@@ -51,7 +51,7 @@ namespace GenRepo
         private Filter<T> BuildLeaf<T>(JToken o)
         {
             var dto = o.ToObject<LeafFilterExpression>();
-            return Filter<T>.Create(dto.Property, dto.Operation, dto.Value);
+            return GenRepo.Filter<T>.Create(dto.Property, dto.Operation, dto.Value);
         }
 
         private Filter<T> BuildAnd<T>(JToken o)
