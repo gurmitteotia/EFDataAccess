@@ -61,7 +61,7 @@ EntityFramework has already done the good job of implementing Repository, Query 
       var popularKeyboards = repository.Get(popularKeyboard);
    ```
 
-5. **Supports deserialization/serialization of filter expression tree**: You can deserialize the filter expressions from JSON representation.
+5. **Deserialization/serialization of filter expression tree**: You can deserialize the filter expressions from JSON representation.
    ```cs
         var d = @"{
 			""Property"" : ""Category"",
@@ -70,10 +70,10 @@ EntityFramework has already done the good job of implementing Repository, Query 
 		}";
 
         var jsonFilter = new JsonFilterExpression(d);
-        var filter = jsonFilter.Filter<TestItem>();
+        var filter = jsonFilter.Filter<Product>();
         var filteredProduct = repository.Get(filter);
    ```
- You can deserialize a pretty complex filter expression, for more example please look at unit [test cases](https://github.com/gurmitteotia/EFDataAccess/blob/master/GenRepo.Tests/JsonFilterDeserializationTest.cs). You can create JSON representation by hand or FilterExpression.Json as shown in following example:
+ You can deserialize a pretty complex filter expression, for more example please look at unit [test cases](https://github.com/gurmitteotia/EFDataAccess/blob/master/GenRepo.Tests/JsonFilterDeserializationTest.cs). You can create JSON representation by hand or by FilterExpression.Json as shown in following example:
    ```cs
     var lhs = new LeafFilterExpression()
             { Operation = OperationType.GreaterThan, Property = "Salary", Value = 10000 };
